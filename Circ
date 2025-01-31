@@ -1,0 +1,50 @@
+#include <iostream>
+#include <cmath>
+#include <string>
+using namespace std;
+
+// Function to check if a number is prime
+bool isPrime(int num) {
+    if (num <= 1) return false;
+    for (int i = 2; i <= sqrt(num); i++) {
+        if (num % i == 0) return false;
+    }
+    return true;
+}
+
+// Function to rotate the digits of the number
+int rotate(int num) {
+    string s = to_string(num);
+    string rotated = s.substr(1) + s[0]; // Rotating left
+    return stoi(rotated);
+}
+
+// Function to check if a number is a circular prime
+bool isCircularPrime(int num) {
+    int rotations = log10(num) + 1; // Find the number of digits in the number
+    int temp = num;
+    
+    // Check all rotations
+    for (int i = 0; i < rotations; i++) {
+        if (!isPrime(temp)) {
+            return false; // If any rotation is not prime, it's not a circular prime
+        }
+        temp = rotate(temp); // Rotate the number
+    }
+    
+    return true;
+}
+
+int main() {
+    int n;
+    cout << "Enter the value of n: ";
+    cin >> n;
+    
+    cout << "Circular primes between 1 and " << n << " are:\n";
+    for (int i = 2; i <= n; i++) {
+        if (isCircularPrime(i)) {
+            cout << i << " ";
+        }
+    }
+    return 0;
+}
